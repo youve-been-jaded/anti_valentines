@@ -1,0 +1,837 @@
+Delivered-To: jacob.benowitz@gmail.com
+Received: by 2002:a05:6a11:aacb:b0:6ad:9a0f:9f8f with SMTP id lv11csp2208589pxc;
+        Mon, 2 Feb 2026 18:22:56 -0800 (PST)
+X-Received: by 2002:a17:903:3b83:b0:2a0:835b:d17f with SMTP id d9443c01a7336-2a8d993fb5amr128632715ad.54.1770085375907;
+        Mon, 02 Feb 2026 18:22:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770085375; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Ag1UuVhkqS7PpRRp7k591FrNcX/oiyq8CGCaTwxIgnB3vSZxHXR5iNvRKhgRzuJ8Tr
+         sEF/M2sIRMy3cwHgsBMWGUa700TYrr45SIrgta6XoafAv999tKk5nB17ZSy3/TGjgMyF
+         7/ar3wwWnreTa3euPmeOdlH3f2DywTxvtlDDmhwX9beSitZA/XhOvyLVeMK1Lc878oMZ
+         sciPe3j93NKlyOPGNwjhyzVSsRWgw0DCuLecs+D4aFHVxsN4HWMaeZPhw4qZDK+4NDW/
+         qOcLZwx16+laYM9NkdiH9kmL78dvOVc0+byEhdDQjlbAeK04ub+CCoPkFE3v+SofjQEV
+         UaFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=feedback-id:precedence:list-unsubscribe:ems-locale
+         :ems-subscription-scope:ems-subscription-category
+         :ems-idempotence-key:ems-method-name:mime-version:subject:message-id
+         :to:reply-to:from:date:dkim-signature:dkim-signature;
+        bh=6prftiU9SSDPYhcGhNFo7pyj9ebcKzJA2ubDxMP+mx4=;
+        fh=NEfJncmYKFWz6mzFNKmGuQVeFqZT894tGo/Bo0tAN+A=;
+        b=GKxKi9CxDtAYidxOq4gXjw9v0bxHFJRACE7S7eqdamPfbujKNYrjlJ/6dhizKpub5K
+         CWIpXfdy66/+TUmhFkGqyISj5Das6ojcbc44MUfpkpDDn0jR/6bXRBmJVn8bVg7SInxJ
+         T2ZvI5Gy2HEomEoBvhkZF2VSxL+ynpOzUJ+S0AN3SF1TzhHGl+pbG8zdK0+rj7ZorjNk
+         uyXJNR3kFS2JYzwKfkkKeWJZ9EvA9yu3wQrkIvhSv86r7cbNyxD8VWE6NyApCizDXac7
+         bO0bNLXyaVIHmSvfQw8t3w35Gw/eFAfR2BuUd7Y1n7WSOGj2tWhdK8tNkfKPKytNRMmF
+         dz5w==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@squaremktg.com header.s=6ybhcpgejukl6irphg5fb544ftc65xli header.b=H8Dde8nW;
+       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=CnU0vevY;
+       spf=pass (google.com: domain of 0101019c214f5df7-5b326650-ad69-4162-9511-2659435c7b3a-000000@amazonses.squaremktg.com designates 54.240.86.179 as permitted sender) smtp.mailfrom=0101019c214f5df7-5b326650-ad69-4162-9511-2659435c7b3a-000000@amazonses.squaremktg.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=squaremktg.com
+Return-Path: <0101019c214f5df7-5b326650-ad69-4162-9511-2659435c7b3a-000000@amazonses.squaremktg.com>
+Received: from a86-179.smtp-out.us-west-2.amazonses.com (a86-179.smtp-out.us-west-2.amazonses.com. [54.240.86.179])
+        by mx.google.com with ESMTPS id d9443c01a7336-2a88b41df73si275347755ad.67.2026.02.02.18.22.55
+        for <jacob.benowitz@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Feb 2026 18:22:55 -0800 (PST)
+Received-SPF: pass (google.com: domain of 0101019c214f5df7-5b326650-ad69-4162-9511-2659435c7b3a-000000@amazonses.squaremktg.com designates 54.240.86.179 as permitted sender) client-ip=54.240.86.179;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@squaremktg.com header.s=6ybhcpgejukl6irphg5fb544ftc65xli header.b=H8Dde8nW;
+       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=CnU0vevY;
+       spf=pass (google.com: domain of 0101019c214f5df7-5b326650-ad69-4162-9511-2659435c7b3a-000000@amazonses.squaremktg.com designates 54.240.86.179 as permitted sender) smtp.mailfrom=0101019c214f5df7-5b326650-ad69-4162-9511-2659435c7b3a-000000@amazonses.squaremktg.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=squaremktg.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=6ybhcpgejukl6irphg5fb544ftc65xli; d=squaremktg.com; t=1770085375; h=Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:List-Unsubscribe; bh=AjcmF9q8aixCYD73LD7NZ6dAWGVJhkst+oZk7ZNnAgM=; b=H8Dde8nWcXg5qdlTf/JT4fhWD+KVFoZIPOUcyJomKa7+4MzrZtY7k3LzvjvG0Ir+ DhcEtXX4cXSEsl6Jln59kSJKnU2oTeSYqs7alQ8xKOSi/6vCSp7i1ydaM6jCIchC3AY 1esu/gESBLUQJ0lw8qao4AFOV5RVMp9lHQ59bjzv/SXvvXG5FchiW1jASMt/0bMIuMg hGDrzCwOB3Eb6l4hqv96RlFWkS0wxzZF22YxrUfKxldOvgCfVxINkyw6fD0u0vyU2Qb isvUb8Ad89nLWd5YSFx5bex2gEGJqH1/X8ouLPI9hv0TNpHzOjDNYTO396ShlpQpIPB 8n6DkPg9jw==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1770085375; h=Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:List-Unsubscribe:Feedback-ID; bh=AjcmF9q8aixCYD73LD7NZ6dAWGVJhkst+oZk7ZNnAgM=; b=CnU0vevYeezWtK/4QEiekDj2pKinqbYAiORqGRAv57QxSq/nJhilrR00lTleTrmL oKl60iFTxtyqSLbP7BpEPMJPIY5IP68yDxxaOLIVOi1yHQvoCGRxhWPi+X7dbhef3W0 xsKUkX1K9hBVdA/YeyPxBfkrH9+A/+SPxvWKaUyg=
+Date: Tue, 3 Feb 2026 02:22:55 +0000
+From: Nicole Philipp <messages+ml9dap4s289t3@squaremktg.com>
+Reply-To: Nicole Philipp <CAESPxIAGjFvX216cnh1MjJiZ2U0ZnVyc2dnNWRzMnVzdWhidnhvbWtwa3Z5ZW1ta2xrdm1obXl5IghkaWFsb2d1ZSIgP4d0Vix1fHFTp9EHgCAIIScvo7iXYbGBGVxHqFI80lA=@reply2.squareup.com>
+To: jacob.benowitz@gmail.com
+Message-ID: <0101019c214f5df7-5b326650-ad69-4162-9511-2659435c7b3a-000000@us-west-2.amazonses.com>
+Subject: JADED | Anti-Valentine's Lingerie Party
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="--==_mimepart_69815bff6dbcd_f823a1620966082d"; charset=UTF-8
+ems-method-name: campaign
+ems-idempotence-key: 92aa2d984ba875e7af530033bf144d58
+ems-subscription-category: always_deliver
+ems-subscription-scope: internal
+ems-locale: en-us
+List-Unsubscribe: <https://profile.squareup.com/manage/marketing/gRJqePBRwc9E?source=delivery&value=fczkA18ZFF7G-RT8kw1OUpF1KUXvc>
+Precedence: Bulk
+X-Campaign-Id: fczkA18ZFF7G
+X-Delivery-Id: RT8kw1OUpF1KUXvc
+X-Merchant-Id: ML9DAP4S289T3
+X-Metadata-postoffice-token: RT8kw1OUpF1KUXvc
+Feedback-ID: ::1.us-west-2.x8b48NypwZVD848x3wZnOdkmIOuhle0iwo6aN+CqIjw=:AmazonSES
+X-SES-Outgoing: 2026.02.03-54.240.86.179
+
+----==_mimepart_69815bff6dbcd_f823a1620966082d
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+
+
+ =20
+   =20
+     =20
+       =20
+ =20
+   =20
+     =20
+       =20
+          Join us for a JADED Anti-Valentine's Day affairlanding on Friday =
+the 13th, because nothing says romance like bad decisions, good music, and =
+barely there outfits.
+
+Theme: Lingerie + bedroom wear
+Slips, corsets, boxers, robes, silk, pearls, diamonds, leather, lace, fur, =
+&amp; feathers... if you'd wear it behind closed doors, it belongs here.
+
+House rules: No outfit, no entry.
+This is not a suggestion.
+
+This is a requirement.
+
+Come heartless.
+Come dangerous.
+Come dressed like you're about to ruin someone's life
+=C2=A0(or your own).
+
+Cupid's not invited.
+Neither is your ex.
+But chaos is welcome.
+
+JADED
+Where love dies beautifully.
+--
+RSVP by responding to this text
+by February 6th.
+
+NO PLUS ONES, make a new friend.
+
+1425 Winnifred St, Suite 111
+9:00 PM - 1:00 AM
+
+       =20
+     =20
+   =20
+ =20
+
+     =20
+   =20
+ =20
+
+
+ =20
+   =20
+     =20
+       =20
+ =20
+   =20
+     =20
+       =20
+
+ =20
+   =20
+     =20
+       =20
+ =20
+   =20
+     =20
+       =20
+           =20
+
+       =20
+     =20
+   =20
+ =20
+
+     =20
+   =20
+ =20
+
+     =20
+   =20
+ =20
+
+     =20
+   =20
+ =20
+
+
+ =20
+   =20
+     =20
+       =20
+ =20
+   =20
+     =20
+       =20
+
+ =20
+   =20
+     =20
+       =20
+ =20
+   =20
+     =20
+       =20
+           =20
+
+       =20
+     =20
+   =20
+ =20
+
+     =20
+   =20
+ =20
+
+     =20
+   =20
+ =20
+
+     =20
+   =20
+ =20
+
+
+ =20
+   =20
+     =20
+       =20
+ =20
+   =20
+     =20
+       =20
+
+ =20
+   =20
+     =20
+       =20
+ =20
+   =20
+     =20
+       =20
+           =20
+
+       =20
+     =20
+   =20
+ =20
+
+     =20
+   =20
+ =20
+
+     =20
+   =20
+ =20
+
+     =20
+   =20
+ =20
+
+
+----==_mimepart_69815bff6dbcd_f823a1620966082d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org=
+/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang=3D"en" xmlns=3D"http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=
+=3D1, maximum-scale=3D1" />
+    <meta http-equiv=3D"Content-Type" content=3D"text/html;charset=3Dutf-8"=
+ />
+    <title>Square</title>
+    <!--[if !mso]><!-->
+    <style type=3D"text/css">
+      #outlook a {padding:0;}
+      body{width:100% !important;-webkit-text-size-adjust:100%;-ms-text-siz=
+e-adjust:100%;margin:0;padding:0;}
+      .ExternalClass {width:100%;}
+      .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass=
+ font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
+      table td {border-collapse: collapse}
+      td .preheader { display: none !important;}
+
+      @media only screen and (min-width: 281px) {
+        @font-face{font-family:"sqmarket";src:url(https://dl6rt3mwcjzxg.clo=
+udfront.net/assets/sqmarket/sqmarket-light-2f642b292d14d75d5f32c9ed72c48474=
+.woff) format("woff");font-weight:300;font-style:normal}
+        @font-face{font-family:"sqmarket";src:url(https://dl6rt3mwcjzxg.clo=
+udfront.net/assets/sqmarket/sqmarket-regular-6a5fb006f7400e3ac2db120a476c56=
+bd.woff) format("woff");font-weight:400;font-style:normal}
+        @font-face{font-family:"sqmarket";src:url(https://dl6rt3mwcjzxg.clo=
+udfront.net/assets/sqmarket/sqmarket-medium-5a6f039439c1c8e6064e37342270b45=
+a.woff) format("woff");font-weight:500;font-style:normal}
+        @font-face{font-family:"sqmarket";src:url(https://dl6rt3mwcjzxg.clo=
+udfront.net/assets/sqmarket/sqmarket-bold-4eb993fdb0c4963ab37df16496655cb8.=
+woff) format("woff");font-weight:700;font-style:normal}
+      }
+    </style>
+
+    <style type=3D"text/css" data-premailer=3D"ignore"> =20
+  @media only screen and (min-width: 610px) {
+    .widget-padding-width,
+    .button-padding-width {
+      padding-left: 64px !important;
+      padding-right: 64px !important;
+    }
+
+    .button-padding-width a {
+      min-width: 200px !important;
+      max-width: 32ch !important;
+    }
+  }
+
+  @media only screen and (max-width: 640px) {
+    .block-widget-padding {
+      padding: 40px 40px 32px !important;
+    }
+
+    .widget-padding-width,
+    .button-padding-width {
+      padding-left: 40px !important;
+      padding-right: 40px !important;
+    }
+
+    .button-padding-width a {
+      min-width: auto !important;
+      max-width: 100% !important;
+    }
+
+    .widget-padding-bottom {
+      padding-bottom: 16px !important;
+    }
+
+    .spacer-widget-large {
+        height: 32px !important;
+    }
+  }
+
+  @media only screen and (max-width: 440px) {
+    .content-wrap {
+      padding: 16px 0 0 !important;
+    }
+
+    .block-widget-padding {
+      padding: 40px 20px 32px !important;
+    }
+
+    .emailImage {
+      height:auto !important;
+      max-width: 440px !important;
+      width: 100% !important;
+    }
+
+    .header-widget {
+      height: 196px !important;
+    }
+
+    .widget-padding-width,
+    .button-padding-width {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+
+    .widget-padding-bottom {
+      padding-bottom: 16px !important;
+    }
+
+    .widget-left-column {
+      padding-right: 10px !important;
+    }
+
+    .widget-right-column {
+      padding-left: 10px !important;
+    }
+
+    .spacer-widget-large {
+        height: 32px !important;
+    }
+  }
+</style>
+
+    <!--<![endif]-->
+
+
+    <!--[if !mso]><!-->
+<style type=3D"text/css" data-premailer=3D"ignore">
+  @media only screen and (min-width: 281px) {
+    @font-face { font-family: "Lora"; src: url("https://postoffice-producti=
+on-f.squarecdn.com/fonts/lora.woff2") format("woff2"), url("https://postoff=
+ice-production-f.squarecdn.com/fonts/lora.woff") format("woff"); }
+    @font-face { font-family: "Dancing Script"; src: url("https://postoffic=
+e-production-f.squarecdn.com/fonts/dancing-script.woff2") format("woff2"), =
+url("https://postoffice-production-f.squarecdn.com/fonts/dancing-script.wof=
+f") format("woff"); }
+    @font-face { font-family: "Caveat Brush"; src: url("https://postoffice-=
+production-f.squarecdn.com/fonts/caveat-brush.woff2") format("woff2"), url(=
+"https://postoffice-production-f.squarecdn.com/fonts/caveat-brush.woff") fo=
+rmat("woff"); }
+  }
+</style>
+<!--<![endif]-->
+
+
+    <!--[if gte mso 9]>
+      <xml>
+        <o:OfficeDocumentSettings>
+          <o:AllowPNG/>
+          <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+      </xml>
+    <![endif]-->
+    <!--[if gte mso 9]>
+      <style type=3D"text/css">
+        .nomso{display:none;font-size:0;line-height:0}
+      </style>
+    <![endif]-->
+  </head>
+
+  <body bgcolor=3D"#000000">
+      <!--[if !mso]><!-->
+        <div style=3D"font-size:0;max-height:0;overflow:hidden;display:none=
+;background-color:#000000;color:#000000;">
+          Join us for a JADED Anti-Valentine&#39;s Day affair landing on Fr=
+iday the 13th, because nothing says romance like bad decisions, good music,=
+ and barely there outfits. Theme: Lingerie + bedroom wear Slips, corsets, b=
+oxers, robes, silk, pearls, diamonds...
+        </div>
+      <!--<![endif]-->
+
+    <script type=3D"application/ld+json">[{"@context":"http://schema.org/",=
+"@type":"Organization","name":"Nicole Philipp"}]</script>
+
+    <div id=3D"container" style=3D"min-width:240px;-webkit-text-size-adjust=
+:none;-ms-text-size-adjust:none;-webkit-font-smoothing:antialiased">
+      <table id=3D"transient-header" border=3D"0" cellpadding=3D"0" cellspa=
+cing=3D"0" width=3D"100%" bgcolor=3D"#000000">
+        <tbody>
+          <tr>
+            <td>
+                <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" ali=
+gn=3D"center" bgcolor=3D"#ffffff" width=3D"100%">
+    <tbody>
+      <tr>
+        <td>
+          <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"=
+center">
+            <tr>
+              <td width=3D"512" align=3D"center">
+                <table border=3D"0" cellpadding=3D"20" cellspacing=3D"0">
+                  <tr>
+                    <td width=3D"432" align=3D"center" style=3D"font-family=
+:sqmarket,Helvetica Neue,Helvetica,sans-serif;font-size:12px;line-height:18=
+px;color:#5f6a7c;text-align:left">
+                      Your favorite businesses may send you messages and re=
+wards via Square like the one below.
+                      <a id=3D"header-unsubscribe" href=3D"https://zpzl839y=
+.r.us-west-2.awstrack.me/L0/https:%2F%2Fsquaremktg.com%2Fsubscriptions%2FgR=
+JqePBRwc9E%2Flearn_more%3Fsource=3Ddelivery%26value=3DfczkA18ZFF7G-RT8kw1OU=
+pF1KUXvc/1/0101019c214f5df7-5b326650-ad69-4162-9511-2659435c7b3a-000000/A_5=
+3OUGADGMIFhUK-hPCq8Iakgw=3D464" data-rewrite=3D"false" style=3D"color:#008b=
+cb; text-decoration:underline;">Learn more and update your preferences.</a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center" =
+bgcolor=3D"" width=3D"100%">
+    <tbody>
+      <tr>
+        <td>
+          <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"=
+center">
+            <tr>
+              <td width=3D"512" align=3D"center">
+                <table border=3D"0" cellpadding=3D"20" cellspacing=3D"0">
+                  <tr>
+                    <td width=3D"432" align=3D"center" style=3D"font-family=
+:sqmarket,Helvetica Neue,Helvetica,sans-serif;font-size:12px;line-height:18=
+px;color:#b0b5ba;text-align:center">
+                      Have questions? Reply to this email and we=E2=80=99ll=
+ respond as soon as possible.
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table id=3D"email-body" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" width=3D"100%" bgcolor=3D"#000000">
+        <tbody>
+          <tr>
+            <td>
+              <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=
+=3D"center">
+                <tbody>
+                  <tr>
+                    <td align=3D"center" width=3D"640">
+                      <!-- HEADER -->
+  <table class=3D"header-widget" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" style=3D"background-color: #020202" height=3D"196" width=3D"100%">
+  <tbody>
+    <tr>
+      <td align=3D"center" background=3D"https://postoffice-production-f.sq=
+uarecdn.com/images/jZAc5mUkSG9fHud7dE18QULuVERRHcWP.png?enable=3Dupscale&am=
+p;height=3D196&amp;width=3D640" style=3D"background-size:cover; background-=
+position:center; background-repeat:no-repeat; background-image: url('https:=
+//postoffice-production-f.squarecdn.com/images/jZAc5mUkSG9fHud7dE18QULuVERR=
+HcWP.png?enable=3Dupscale&amp;height=3D196&amp;width=3D640'); background-im=
+age: -webkit-image-set(url('https://postoffice-production-f.squarecdn.com/i=
+mages/jZAc5mUkSG9fHud7dE18QULuVERRHcWP.png?enable=3Dupscale&amp;height=3D19=
+6&amp;width=3D640') 1x, url('https://postoffice-production-f.squarecdn.com/=
+images/jZAc5mUkSG9fHud7dE18QULuVERRHcWP.png?enable=3Dupscale&amp;height=3D3=
+92&amp;width=3D1280') 2x);  background-image: image-set(url('https://postof=
+fice-production-f.squarecdn.com/images/jZAc5mUkSG9fHud7dE18QULuVERRHcWP.png=
+?enable=3Dupscale&amp;height=3D196&amp;width=3D640') 1x, url('https://posto=
+ffice-production-f.squarecdn.com/images/jZAc5mUkSG9fHud7dE18QULuVERRHcWP.pn=
+g?enable=3Dupscale&amp;height=3D392&amp;width=3D1280') 2x);" id=3D"header-w=
+ith-bg">
+          <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"=
+width: 100%; height: 100%;">
+            <tbody>
+              <tr>
+                <td align=3D"center">
+                  <img src=3D"https://postoffice-production-f.squarecdn.com=
+/images/jZAc5mUkSG9fHud7dE18QULuVERRHcWP.png?enable=3Dupscale&amp;height=3D=
+196&amp;width=3D640" alt=3D"Nicole Philipp" style=3D"display: block; object=
+-fit: cover; object-position: center;" width=3D"100%" height=3D"100%">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table id=3D"1c_body_center" border=3D"0" cellpadding=3D"0" cellspacing=3D"=
+0" bgcolor=3D"#000000" width=3D"100%" style=3D"text-align:left;font-family:=
+sqmarket,Helvetica Neue,Helvetica,sans-serif">
+  <tbody>
+    <tr>
+      <td class=3D"content-wrap" style=3D"padding: 0">
+       =20
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+  <tbody>
+    <tr>
+      <td style=3D"padding-left: 64px; padding-right: 64px;padding-bottom: =
+24px" class=3D"widget-padding-width widget-padding-bottom">
+       =20
+  <table class=3D"body_text_p" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" width=3D"100%" style=3D"font-family:sqmarket,Helvetica Neue,Helvetic=
+a,sans-serif">
+    <tbody>
+      <tr>
+        <td style=3D"color:#3D454D;font-family:sqmarket,Helvetica Neue,Helv=
+etica,sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align=
+: center;font-family: Verdana,Geneva,sans-serif;">
+          Join us for a <b>JADED Anti-Valentine's Day </b>affair<div>landin=
+g on Friday the 13th, because nothing says romance like bad decisions, good=
+ music, and barely there outfits.</div>
+<div><br></div>
+<div><b>Theme: Lingerie + bedroom wear</b></div>
+<div>Slips, corsets, boxers, robes, silk, pearls, diamonds, leather, lace, =
+fur, &amp; feathers... if you'd wear it behind closed doors, it belongs her=
+e.</div>
+<div><br></div>
+<div><b>House rules: No outfit, no entry.</b></div>
+<div>This is not a <i>suggestion.</i>
+</div>
+<div><b>This is a requirement.</b></div>
+<div><br></div>
+<div><b>Come heartless.</b></div>
+<div><b>Come dangerous.</b></div>
+<div><b>Come dressed like you're about to ruin someone's life</b></div>
+<div><b>=C2=A0(or your own).</b></div>
+<div><b><br></b></div>
+<div><b>Cupid's not invited.</b></div>
+<div><b>Neither is your ex.</b></div>
+<div><b>But chaos is welcome.</b></div>
+<div><br></div>
+<div><b>JADED</b></div>
+<div>Where love dies beautifully.</div>
+<div>--</div>
+<div><b>RSVP by responding to this text</b></div>
+<div><b>by February 6th.</b></div>
+<div><br></div>
+<div><b>NO PLUS ONES, make a new friend.</b></div>
+<div><br></div>
+<div><b>1425 Winnifred St, Suite 111</b></div>
+<div><b>9:00 PM - 1:00 AM</b></div>
+<div><br></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+  <tbody>
+    <tr>
+      <td style=3D"padding-left: 64px; padding-right: 64px;padding-bottom: =
+24px" class=3D"widget-padding-width widget-padding-bottom">
+       =20
+  <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+    <tr>
+      <td>
+       =20
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+  <tbody>
+    <tr>
+      <td style=3D"padding: 0px" class=3D"">
+       =20
+  <table class=3D"image-widget" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" width=3D"100%" align=3D"center" style=3D"font-family:sqmarket,Helvet=
+ica Neue,Helvetica,sans-serif;margin: 0 auto;">
+    <tbody>
+      <tr>
+        <td align=3D"center">
+            <img src=3D"https://postoffice-production-f.squarecdn.com/image=
+s/QiVZXouKRahYLVfwIvXQfU462r3wjael.png?enable=3Dupscale&amp;width=3D1024" a=
+lt=3D"" width=3D"512" class=3D"emailImage" style=3D"background-color: #0202=
+02;border-radius: 8px;height:auto;width:100%;display:block;-ms-interpolatio=
+n-mode:bicubic"/>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+      </td>
+    </tr>
+  </table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+  <tbody>
+    <tr>
+      <td style=3D"padding-left: 64px; padding-right: 64px;padding-bottom: =
+24px" class=3D"widget-padding-width widget-padding-bottom">
+       =20
+  <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+    <tr>
+      <td>
+       =20
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+  <tbody>
+    <tr>
+      <td style=3D"padding: 0px" class=3D"">
+       =20
+  <table class=3D"image-widget" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" width=3D"100%" align=3D"center" style=3D"font-family:sqmarket,Helvet=
+ica Neue,Helvetica,sans-serif;margin: 0 auto;">
+    <tbody>
+      <tr>
+        <td align=3D"center">
+            <img src=3D"https://postoffice-production-f.squarecdn.com/image=
+s/AAojm7gaHt2AFlUQ3IgXEqSMpoSOXR0J.png?enable=3Dupscale&amp;width=3D1024" a=
+lt=3D"" width=3D"512" class=3D"emailImage" style=3D"background-color: #0202=
+02;border-radius: 8px;height:auto;width:100%;display:block;-ms-interpolatio=
+n-mode:bicubic"/>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+      </td>
+    </tr>
+  </table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+  <tbody>
+    <tr>
+      <td style=3D"padding-left: 64px; padding-right: 64px;padding-bottom: =
+24px" class=3D"widget-padding-width widget-padding-bottom">
+       =20
+  <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+    <tr>
+      <td>
+       =20
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+  <tbody>
+    <tr>
+      <td style=3D"padding: 0px" class=3D"">
+       =20
+  <table class=3D"image-widget" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" width=3D"100%" align=3D"center" style=3D"font-family:sqmarket,Helvet=
+ica Neue,Helvetica,sans-serif;margin: 0 auto;">
+    <tbody>
+      <tr>
+        <td align=3D"center">
+            <img src=3D"https://postoffice-production-f.squarecdn.com/image=
+s/Ivxm0unV7LxvSg800TQVdB3E9XV5R4E3.jpeg?enable=3Dupscale&amp;width=3D1024" =
+alt=3D"" width=3D"512" class=3D"emailImage" style=3D"background-color: #020=
+202;border-radius: 8px;height:auto;width:100%;display:block;-ms-interpolati=
+on-mode:bicubic"/>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+      </td>
+    </tr>
+  </table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- FOOTER -->
+<table id=3D"footer-widget" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" width=3D"100%" bgcolor=3D000000 style=3D"font-family: Helvetica,sans-seri=
+f;;text-align:center;font-size:14px;line-height:18px;text-decoration:none;c=
+olor:#ffffff;padding:32px 20px;">
+  <tr>
+    <td align=3D"center">
+      <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0">
+        <tr>
+          <td align=3D"center" width=3D"472">
+            <!--Social Logos-->
+           =20
+              <!--Seller Name and Address-->
+              <tr>
+  <td align=3D"center" style=3D"padding-bottom:16px;opacity:0.6;">
+      <span id=3D"footer-merchant-name" style=3D"text-decoration:none;color=
+:#ffffff;font-weight:500;">
+        Nicole Philipp
+      </span>
+  </td>
+</tr>
+
+            <!--Seller Privacy Practices-->
+           =20
+            <!--CA Email Sign-up Disclosure -->
+            <!--Unsubscribe or Manage Preferences-->
+              <tr>
+    <td align=3D"center" style=3D"color:#ffffff;padding:0 0 16px;opacity:0.=
+6; text-align: center;">
+        <a id=3D"footer-unsubscribe" href=3D"https://profile.squareup.com/m=
+anage/marketing/gRJqePBRwc9E?source=3Ddelivery&amp;value=3DfczkA18ZFF7G-RT8=
+kw1OUpF1KUXvc" data-rewrite=3D"false" style=3D"font-family: Helvetica,sans-=
+serif; text-decoration:none; color:#ffffff; font-weight:500;">Unsubscribe</=
+a>
+        <span style=3D"font-family: Helvetica,sans-serif;">or</span>
+        <a id=3D"footer-manage-prefs" href=3D"https://profile.squareup.com"=
+ data-rewrite=3D"false" style=3D"font-family: Helvetica,sans-serif; text-de=
+coration:none; color:#ffffff; font-weight:500;">Manage Preferences</a>
+    </td>
+  </tr>
+
+            <!--Square Buyer Privacy Policy-->
+              <tr>
+                <td align=3D"center" style=3D"padding-bottom:16px;opacity:0=
+.6;">
+                  <a href=3Dhttps://squareup.com/us/en/legal/general/buyer-=
+features data-rewrite=3D"false" style=3D"font-family: Helvetica,sans-serif;=
+ text-decoration:none;color:#ffffff; font-weight:500;">Square Buyer Feature=
+s Privacy Policy</a>
+                </td>
+              </tr>
+            <!--Square Logo-->
+            <tr>
+  <td align=3D"center" style=3D"padding-bottom:16px">
+    <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0">
+      <tr>
+        <td><a id=3D"footer_jewel" href=3D"https://zpzl839y.r.us-west-2.aws=
+track.me/L0/https:%2F%2Fsquareup.com%2Fus%2Fen/1/0101019c214f5df7-5b326650-=
+ad69-4162-9511-2659435c7b3a-000000/bdtKVcw0t581vAHHTqts-4rIFwk=3D464"><img =
+src=3Dhttps://square-postoffice-production.s3.amazonaws.com/email/icons/soc=
+ial/icon-sq-2024-light2x.png width=3D"40" height=3D"40" border=3D"0" style=
+=3D"display:block;border:0"></a></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+
+
+                      <!--[if !mso]><!-->
+<div style=3D"font-size:0;max-height:0;overflow:hidden;display:none">
+  JADED | Anti-Valentine&#39;s Lingerie Party was sent to you on 2026-02-03=
+ 02:22:55 UTC by Nicole Philipp
+</div>
+<!--<![endif]-->
+
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Hack to stop mobile email clients from resizing content :( -->
+    <div style=3D"display:none; white-space:nowrap; font:15px courier; line=
+-height:0;">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp;
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp;
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    </div>
+  <img alt=3D"" src=3D"https://zpzl839y.r.us-west-2.awstrack.me/I0/0101019c=
+214f5df7-5b326650-ad69-4162-9511-2659435c7b3a-000000/T6cjLOM7JXjmP2-IxKVFU9=
+av-ho=3D464" style=3D"display: none; width: 1px; height: 1px;">
+</body>
+</html>
+
+----==_mimepart_69815bff6dbcd_f823a1620966082d--
